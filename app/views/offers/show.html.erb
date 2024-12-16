@@ -1,0 +1,22 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @offer %>
+
+
+<div>
+  <%= link_to "Back to offers", offers_path %>
+  <% if user_signed_in? %>
+    <% if current_user.isadmin %>
+      <%= link_to "Edit this offer", edit_offer_path(@offer) %> |
+      <%= button_to "Destroy this offer", @offer, method: :delete %>
+    <% elsif @apply == nil %>
+      <p>
+        <a href="/apply/create/<%=@offer.id%>">Postular</a>
+      </p>
+    <% else %>
+      <p>
+        <i>Ya has postulado a esta oferta</i>
+      </p>
+    <% end %>
+  <% end %>
+</div>

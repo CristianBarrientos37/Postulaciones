@@ -1,0 +1,41 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Offers" %>
+
+<h1>Offers</h1>
+
+<div id="offers">
+  <% @offers.each do |offer| %>
+    
+    <p>
+      <%= link_to offer.title, offer %>
+    </p>
+  <% end %>
+</div>
+<% if user_signed_in? && current_user.isadmin %>
+    <%= link_to "New offer", new_offer_path %>
+<% end %>
+
+<script>
+  const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+
+  async function get_news(){
+    const resp = await fetch('/news.json')
+    const data = await resp.json()
+    console.log(data)
+  }
+  
+  async function create_news(){
+    const resp = await fetch('/news', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        "Accept": 'application/json',
+        'X-CSRF-Token': csrfToken
+      },
+      body: JSON.stringify({news: {title: 'Primera noticia', body: 'este es el cuerpo de la noticia'}})
+    })
+    const data = await resp.json()
+    console.log(data)
+  }
+</script>
